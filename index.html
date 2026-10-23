@@ -2,7 +2,11 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GPTest · Projets de démonstration</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="projects.js" defer></script>
 </head>
 <body>
     <p data-role="demo">Démo publique Freshdoc</p>
@@ -22,5 +26,76 @@
             <a href="#">Profile</a>
         </div>
     </nav>
+    <main>
+        <section class="workspace" aria-labelledby="workspace-title" data-feature="project-setup">
+            <div class="workspace-heading">
+                <div>
+                    <p class="eyebrow">Votre espace de travail</p>
+                    <h1 id="workspace-title">Une idée, puis un projet.</h1>
+                    <p>Choisissez un modèle, préparez votre équipe et vérifiez les détails avant de créer votre projet.</p>
+                </div>
+                <button type="button" id="open-project" class="button primary">Créer un projet</button>
+            </div>
+            <p class="demo-note">Démonstration locale : vos projets restent dans ce navigateur. Aucune invitation n’est envoyée.</p>
+            <div id="project-list" aria-live="polite"></div>
+            <p id="storage-warning" class="error" role="status" hidden>Le stockage du navigateur est indisponible. Vos projets seront conservés uniquement pendant cette visite.</p>
+        </section>
+    </main>
+
+    <dialog id="project-dialog" aria-labelledby="project-title" aria-describedby="project-description">
+        <div class="dialog-heading">
+            <div><p class="eyebrow">Nouveau projet</p><h2 id="project-title">Choisir un modèle</h2></div>
+            <button type="button" id="close-project" class="icon-button" aria-label="Fermer la création du projet">×</button>
+        </div>
+        <p id="project-description">Un point de départ adapté à votre prochain projet.</p>
+        <ol class="steps" aria-label="Étapes de création">
+            <li data-step-label="1" aria-current="step"><span>1</span> Modèle</li>
+            <li data-step-label="2"><span>2</span> Détails</li>
+            <li data-step-label="3"><span>3</span> Vérification</li>
+        </ol>
+        <form id="project-form" novalidate>
+            <section data-step="1" aria-label="Choix du modèle">
+                <fieldset class="template-options">
+                    <legend>Quel projet souhaitez-vous préparer ?</legend>
+                    <label class="template-option"><input type="radio" name="template" value="website" checked><span><strong>Site vitrine</strong><small>Présenter une activité et ses services.</small></span></label>
+                    <label class="template-option"><input type="radio" name="template" value="application"><span><strong>Application web</strong><small>Organiser les écrans et les parcours utilisateurs.</small></span></label>
+                    <label class="template-option"><input type="radio" name="template" value="documentation"><span><strong>Documentation</strong><small>Structurer des guides et un centre d’aide.</small></span></label>
+                </fieldset>
+            </section>
+            <section data-step="2" aria-label="Détails du projet" hidden>
+                <label class="field" for="project-name">Nom du projet<input id="project-name" name="projectName" type="text" minlength="3" maxlength="60" required autocomplete="off" placeholder="Ex. Refonte du site" aria-describedby="name-help name-error"></label>
+                <small id="name-help">De 3 à 60 caractères.</small>
+                <p id="name-error" class="error" hidden>Indiquez un nom contenant de 3 à 60 caractères.</p>
+                <label class="field" for="team-size">Taille de l’équipe<select id="team-size" name="teamSize"><option value="solo">Moi uniquement</option><option value="small">2 à 5 personnes</option><option value="large">6 personnes ou plus</option></select></label>
+                <label class="checkbox-option"><input type="checkbox" id="project-checklist" name="checklist" checked><span>Ajouter une checklist de démarrage</span></label>
+                <p class="field-note">La taille de l’équipe sert de repère. Aucun compte supplémentaire n’est créé.</p>
+            </section>
+            <section data-step="3" aria-label="Récapitulatif du projet" hidden>
+                <dl id="project-summary" class="summary"></dl>
+                <p class="demo-note">Vous pourrez retrouver ce projet sur cette page après validation.</p>
+            </section>
+            <section id="project-success" aria-label="Projet créé" hidden>
+                <div class="success-mark" aria-hidden="true">✓</div>
+                <h3>Votre projet est prêt.</h3>
+                <p id="success-description"></p>
+                <p class="demo-note">Il a été ajouté à votre espace dans ce navigateur.</p>
+            </section>
+            <div class="dialog-actions">
+                <button type="button" id="project-back" class="button secondary" hidden>Retour</button>
+                <button type="button" id="project-cancel" class="button quiet">Annuler</button>
+                <button type="submit" id="project-next" class="button primary">Continuer</button>
+                <button type="button" id="project-done" class="button primary" hidden>Voir mes projets</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog id="discard-dialog" aria-labelledby="discard-title" aria-describedby="discard-description">
+        <h2 id="discard-title">Quitter la création ?</h2>
+        <p id="discard-description">Les informations saisies pour ce nouveau projet seront perdues.</p>
+        <div class="dialog-actions">
+            <button type="button" id="keep-editing" class="button secondary" autofocus>Continuer la saisie</button>
+            <button type="button" id="discard-project" class="button primary">Abandonner le projet</button>
+        </div>
+    </dialog>
 </body>
 </html>

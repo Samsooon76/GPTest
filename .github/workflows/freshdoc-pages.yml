@@ -24,7 +24,7 @@ jobs:
           DEPLOYED_SHA: ${{ github.sha }}
         run: |
           mkdir -p _site
-          cp index.html styles.css _site/
+          cp index.html styles.css projects.js _site/
           cp -R docs _site/docs
           python3 - <<'PY'
           import os, json
